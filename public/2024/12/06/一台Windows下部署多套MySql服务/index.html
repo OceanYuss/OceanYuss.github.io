@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>一台Windows下部署多套MySql服务 │ 于松涛的博客（Ocean Yu's Blog）</title><link rel="stylesheet" href="/css/oasis.css"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="于松涛的博客（Ocean Yu's Blog）" type="application/atom+xml">
+</head><body><div id="content"><h1 id="title">一台Windows下部署多套MySql服务</h1><br><div id="menu-outer"><nav id="menu-inner"><a id="menu-back" href="javascript:history.back()">cd../</a><time datetime="2024-12-06T06:20:41.000Z">2024-12-06</time></nav></div><div id="content-outer"><div id="content-inner"><article id="post"><h2 id="1-基础环境"><a href="#1-基础环境" class="headerlink" title="1.基础环境"></a>1.基础环境</h2><p>Windows 11</p>
+<p>MySql 8.0.39</p>
+<h2 id="2-安装包下载"><a href="#2-安装包下载" class="headerlink" title="2.安装包下载"></a>2.安装包下载</h2><p><a target="_blank" rel="noopener" href="https://www.mysql.com/downloads/">https://www.mysql.com/downloads/</a></p>
+<img src="/2024/12/06/%E4%B8%80%E5%8F%B0Windows%E4%B8%8B%E9%83%A8%E7%BD%B2%E5%A4%9A%E5%A5%97MySql%E6%9C%8D%E5%8A%A1/download1.png" class="" title="下载">
+
+
+
+<img src="/2024/12/06/%E4%B8%80%E5%8F%B0Windows%E4%B8%8B%E9%83%A8%E7%BD%B2%E5%A4%9A%E5%A5%97MySql%E6%9C%8D%E5%8A%A1/download2.png" class="" title="下载">
+
+
+
+<h2 id="3-安装"><a href="#3-安装" class="headerlink" title="3.安装"></a>3.安装</h2><h3 id="3-1-解压文件"><a href="#3-1-解压文件" class="headerlink" title="3.1 解压文件"></a>3.1 解压文件</h3><p>解压至 C:\MySql\mysql-8.0.39-winx64 (提示: 不建议使用C盘解压)</p>
+<p>解压后目录内容如下:</p>
+<img src="/2024/12/06/%E4%B8%80%E5%8F%B0Windows%E4%B8%8B%E9%83%A8%E7%BD%B2%E5%A4%9A%E5%A5%97MySql%E6%9C%8D%E5%8A%A1/image-20241206145453046.png" class="" title="下载">
+
+<h3 id="3-2-创建my-ini文件"><a href="#3-2-创建my-ini文件" class="headerlink" title="3.2 创建my.ini文件"></a>3.2 创建my.ini文件</h3><p>可以看到没有my.ini的配置文件,需要在当前目录下进行手动创建</p>
+<p><strong>my.ini 是 MySQL 数据库服务器的配置文件。它包含了一系列的配置选项，用于控制 MySQL 服务器的行为，例如服务器的启动参数、存储引擎设置、字符集设置、日志记录选项等诸多方面。</strong></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="comment"># 设置mysql客户端默认字符集为中文</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment">#设置端口</span></span><br><span class="line"><span class="attr">port</span> = <span class="number">3309</span></span><br><span class="line"><span class="comment"># 设置mysql的安装目录</span></span><br><span class="line"><span class="attr">basedir</span>=C:\MySql\mysql-<span class="number">8.0</span>.<span class="number">39</span>-winx64</span><br><span class="line"><span class="comment"># 设置mysql数据库的数据的存放目录</span></span><br><span class="line"><span class="attr">datadir</span>=C:\MySql\mysql-<span class="number">8.0</span>.<span class="number">39</span>-winx64\data</span><br><span class="line"><span class="comment"># 允许最大连接数</span></span><br><span class="line"><span class="attr">max_connections</span>=<span class="number">200</span></span><br><span class="line"><span class="comment"># 服务端使用的字符集默认为8比特编码的latin1字符集</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="comment"># 创建新表时将使用的默认存储引擎</span></span><br><span class="line"><span class="attr">default-storage-engine</span>=INNODB</span><br><span class="line"><span class="attr">explicit_defaults_for_timestamp</span>=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-安装服务"><a href="#3-3-安装服务" class="headerlink" title="3.3 安装服务"></a>3.3 安装服务</h3><p>切换到bin文件夹 (C:\MySql\mysql-8.0.39-winx64\bin)</p>
+<p>输入mysqld install MySql_3309 </p>
+<p><strong>MySql_3309是服务名称,可以自定义更改</strong></p>
+<img src="/2024/12/06/%E4%B8%80%E5%8F%B0Windows%E4%B8%8B%E9%83%A8%E7%BD%B2%E5%A4%9A%E5%A5%97MySql%E6%9C%8D%E5%8A%A1/image-20241206163654369.png" class="">
+
+<p>可以看到服务已经被安装成功</p>
+<img src="/2024/12/06/%E4%B8%80%E5%8F%B0Windows%E4%B8%8B%E9%83%A8%E7%BD%B2%E5%A4%9A%E5%A5%97MySql%E6%9C%8D%E5%8A%A1/image-20241206164726824.png" class="">
+
+<p>如果没有启动,右键启动即可</p>
+<h3 id="3-4初始化数据库"><a href="#3-4初始化数据库" class="headerlink" title="3.4初始化数据库"></a>3.4初始化数据库</h3><p>输入mysqld –initialize –console</p>
+<img src="/2024/12/06/%E4%B8%80%E5%8F%B0Windows%E4%B8%8B%E9%83%A8%E7%BD%B2%E5%A4%9A%E5%A5%97MySql%E6%9C%8D%E5%8A%A1/image-20241206164213872.png" class="">
+
+
+
+<h3 id="3-5修改数据库密码"><a href="#3-5修改数据库密码" class="headerlink" title="3.5修改数据库密码"></a>3.5修改数据库密码</h3><p>使用mysql -u root -p 命令修改报错了，可能是环境问题</p>
+<p>所以直接使用了Navacat工具</p>
+<p>测试连接</p>
+<img src="/2024/12/06/%E4%B8%80%E5%8F%B0Windows%E4%B8%8B%E9%83%A8%E7%BD%B2%E5%A4%9A%E5%A5%97MySql%E6%9C%8D%E5%8A%A1/image-20241206164336454.png" class="">
+
+<p>再次点击数据库连接会提示密码过期,输入新密码。</p>
+<img src="/2024/12/06/%E4%B8%80%E5%8F%B0Windows%E4%B8%8B%E9%83%A8%E7%BD%B2%E5%A4%9A%E5%A5%97MySql%E6%9C%8D%E5%8A%A1/image-20241206164455230.png" class="">
+
+
+
+
+
+
+
+
+
+<p><strong>多台部署把文件拷贝至其他文件夹,重复执行此步骤即可。</strong></p>
+<div class="post-tags"><a class="post-tag-link" href="/tags/MySql/" rel="tag">#MySql</a></div></article><div id="paginator"></div></div></div><div id="bottom-outer"><div id="bottom-inner"><hr><div><div><a>2024@ </a><a href="/atom.xml"><img src="/assets/rss.png"></a></div><div id="hexo"><a>Powered by&nbsp</a><a href="#">Ocean </a></div></div></div></div></div></body><script src="/js/oasis.js"></script></html>
